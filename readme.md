@@ -617,6 +617,7 @@ RELATIVE PATH
 
 
 
+
 ---------------------------------------------------------------------------------------
 
 ## Section 5 : Vagrant & Linux Servers : 
@@ -631,7 +632,12 @@ RELATIVE PATH
 #### Commands : 
 
     vagrant destroy --force 
-    ls ~/.vagrant.d/
+    ls ~/.vagrant.d/        // all the information about this vm is present here 
+
+
+#### Labs : 
+
+    
 
 
 
@@ -864,6 +870,8 @@ Commands :
 
 Prerequsite : Create a Root account and IAM user with admin privelages [ free-tire]
 
+***Every region has 2 zones***
+
 #### What is Cloud Computing :
 
          -- Public , Private , Hybrid 
@@ -876,6 +884,43 @@ Prerequsite : Create a Root account and IAM user with admin privelages [ free-ti
          -- Ease in scaling UP/Down
          -- Pay only for what you use
          -- can be integrated into serveral other services
+
+#### Ec2 Pricing :
+        1. On Demand : 
+                pay per hour or seconds 
+        2. Reserved : 
+                Reserve Capacity(1 or 3 yrs) for discounts 
+        3. Spot :
+                Bid your price for unused ec2 capacity 
+        4. Dedicated Hosts :
+                Physical Server dedicated for you 
+
+### Ec2 Components : 
+        1. AMI : Amazon Machine Image provides the information required to launch an instance. Which is virtual server in the cloud 
+
+        2. Instance Type : When you lauch an instance , the instance type that you specify determines the hardware of the host computer used for your instance 
+                e.g: M4 instance , c4 instance , f1 instance , t2 instance 
+
+        3. Amazon Elastic Block Storage(EBs): Amazon Ec2 provides you with flexible , cost effective and easy-to-use data storage options for your instance. 
+
+        4. Tag is a simple label consisting of a customer-defined key and an optional value that can make it easier to manage , search for , and filter resources . 
+
+        5. A security group acts as a virtual firewall that controls the traffic for one or more instance 
+
+        6. Amazon ec2 uses public-key cryptography to encrypt and decrypt login information 
+
+#### Creation of Ec2 Instance : 
+        Choose an AMI 
+        Instance Type 
+        Configure the instance 
+        Adding Storage 
+        Adding tags 
+        Configure Security group review
+
+#### Labs : 
+
+        Ec2 Instance creation : 
+
 
 ----------------------------------------------------------------------------------------
 
