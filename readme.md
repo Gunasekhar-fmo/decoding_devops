@@ -663,6 +663,10 @@ RELATIVE PATH
         Baseline for Upcoming Projects
 
 
+#### Labs : 
+        Vm setup : clone the github.com/hkhcode/vprofile-project and switch to local branch 
+
+
 ----------------------------------------------------------------------------------------
 ## Section 8 : Networking 
 
@@ -855,6 +859,18 @@ Commands :
 
     doker rmi <coainter_id>
 
+#### Microservices Vs Monolithic : 
+
+    Interact with api gateway in microservices 
+
+
+#### Labs : 
+
+        -- few docker commands to create , run & delete containers 
+        -- Build a docker image by cloning the docker branch from the repository and run a container 
+        -- Clone the emartapp 
+
+
 
 
 
@@ -917,9 +933,160 @@ Prerequsite : Create a Root account and IAM user with admin privelages [ free-ti
         Adding tags 
         Configure Security group review
 
+
+***ssh -i "web-dev-key.pem" ec2-user@ec2-3-87-210-157.compute.1.amazonaws.com   >> Public DNS name***
+
+#### Commands : 
+
+        ss -tunlp | grep 80 
+
+#### Security Groups : 
+
+        A security group acts as a virtual firewall that control the traffic for one or more instances 
+
+        You can add rules to each security group that allow traffic to or from its associated instances 
+
+        Security groups are "stateful"
+
+        Inbound : Traffic coming from outside on the instnace
+
+        Outbound : Traffic goinf from instance to outside 
+
+***Public Ipv4 address of the instance keeps changing when every you stop and start the instance buty private Ipv4 address remains same *** 
+
+***we can allocate elastic or static ip for an instance***
+
+***Ip allocation are for network interfaces not for instance , you can create multiple network interfaces***)
+
+#### volumes & Network Interfaces 
+
+
 #### Labs : 
 
-        Ec2 Instance creation : 
+        Ec2 Instance creation :  
+                1. Requiremnts Gathering :
+                         
+                        Size => Ram , cpu , network etc 
+                        Storage size(10 gigs)
+                        Project 
+                        Service/Apps Running (SSH , HTTP,mysql)
+                        Environment(DEv , QA , Stagin , Prod)
+                        Login User/Owner
+
+                2. Key Pairs :
+
+                3. Security Pais 
+                4. Instance Launch 
+
+
+#### AWS Cli : 
+
+        1. INstalling aws 
+        2. Configuring (aws configure ,access key & secret key)
+
+
+#### Aws cli commands 
+
+        aws configure 
+        aws sts get-caller-identify   //Userid , Account , ARn
+        aws ec2 describe-instances
+        aws ~/.aws                //config & credentials in mac
+
+
+#### EBS(Elastic Block Storage) :
+
+        Block Based Storage 
+
+        Runs ec2 OS , store data from db , file data etc 
+
+        Placed in specific AZ . Automatically replicated within the AZ to protect from failure 
+
+        Snapshot is backup of a volume 
+
+#### EBs Types : 
+
+        1. General Purpose (SSD)
+                Most Work loads 
+        2. Provisioned IOPS 
+                Large Databases 
+        3. Throughtput Optimized HD 
+                Big data & Data Warehouse
+        4. Cold HDD 
+                File Servers 
+        5. Magnetic 
+                Backups & Archives 
+
+#### Labs : 
+        Creating a Volume 
+                Select a volume type 
+                Size 
+                Availability Zone 
+                key tag value 
+
+        Attach the volume created to the instance . 
+
+        Creating a partition so that images can be saved in seperate storage[ebs created right now]
+
+                fdisk -l   // linux gives partitions numbers 
+                df -h      // lists under which it is present
+
+                fdisk /dev/xvdf  // followed by options for partition creation 
+
+                mkfs 
+
+                mkfs.ext4 /dev/xvdf1
+
+                mount /dev/xvdf1 /var/www/html/images
+
+
+        CREATE A EBS VOLUME , PARTITION , FORMAT IT , MOUNT IT
+
+#### Ebs Snapshot : 
+        Snapshot backup & restore are used for backups : 
+                unmount partition 
+                Detach volume 
+                Create new volume from snapshot 
+                Attach the volume created from snapshot 
+                Mount it back 
+
+#### ELB (Elastic Load Balancer)
+
+        Table of Content : 
+                Introduction 
+                Why we need load balancers 
+                How it works 
+                Types of load balancers in aws 
+                Demo 
+                AMI & Launch Templates 
+
+        Types of ELB : 
+                1. Application LB :
+                        a. Works on layer 7 
+                        b. Intelligent routing based on content
+                        c. Best suited for http & https traffic
+                        e.g hkinfo.in/videos , hkinfo.in , hjinfo.in/registration 
+
+                2. Network LB :
+                        a. Works on layer 4 
+                        b. Static IP 
+                        c. Millions of request per second 
+
+                3.Gateway LB :
+                        a. works on layer 3
+                        b. Gateway load balancer enable you to deploy , scale , and manage virtual applicances such as 
+                        c. Firewalls 
+                        d. Intrusion detection 
+                        f. prevention systems 
+                        g. deep packet inspect systems 
+
+                4. Classic 
+                        a. Takes request on from end port(443) and routes to the backend server port(80)
+                        b. Ideal for simple solution 
+                        c. Works on layer 4 
+
+
+#### Labs : 
+
 
 
 ----------------------------------------------------------------------------------------
@@ -1173,4 +1340,51 @@ Delete a remote branch :
 
 
         pom.xml is important . 
+
+
+------------------------------------------------------------
+
+
+first section : Devops theoritical prerequsites 
+
+second section : Prerequsite setu with , Aws root and IAM section and buying and configuring a domain with ACM from aws for dns . 
+
+Third Section : Virtulization with vm setup and virtulizaion automation with vagrant and virtualbox 
+
+Fourth Section : Practised linux inside centos virtual machine
+
+Fifth Section : Vagrant & Linux Server  | Bringing up centos , ubuntu vm up using vagrantfile & multi-vm building for further projects using vagrantfile || building a finance & wordpress website using vagrantfile and shell scripting to setup services. 
+
+Sixth Section : Variable , JSON & YAML 
+
+seventh section : v-profile setup manually with mysql , memcache , rabbitmq and ngnix & autoamting it with .sh and vagrantfile  
+
+eighth section : networking , right from osi layes , network & IP with protocols , ports and few network trouble shooting commands . 
+
+ninth section : docker basics with vpforile setup and build it's image and containerize it . 
+
+        Here microservice topic was introduced in the vm. using docker-compose.yml file for building all the service we want in the ports that we want 
+        repository: https://github.com/hkhcoder/vprofile-project  with docker as teh brach. 
+
+
+Things in the labs pending are we are just cloning the repository blindly with performing the commands that he is giving. problem is that he is adding the frontend & backend code , ansible [configuration management] , vagrant file on m1m2 chips , for building the artifact he is using jenkins with maven by writing pom.xml file. 
+
+>> Ansible 
+>> Dockerfile 
+>> Jenkins 
+>> docker-compose.yml writing 
+>> mvn building with pom.xml 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
