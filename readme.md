@@ -635,7 +635,22 @@ RELATIVE PATH
     ls ~/.vagrant.d/        // all the information about this vm is present here 
 
 
-#### Labs : 
+#### Vagrant sync directories : 
+        
+    Used to sync directories betweeen our windows or host system to the virtual machine 
+
+    vm.sync_folders = "F:folder/scripts" "/opt/dir"
+
+
+### Provisioning :      
+
+        Provisioning is setting up or executing few things at the end of the vagrantfile. This will help us in setting up things before head 
+
+        only the first time when a vm is created the command are going to run but if a vm is already provisioned then it is going to display it is already being provisioned 
+
+        But even after though you want to provision it forcefully 
+
+        vagrant provision (or)  vagrant --provision 
 
     
 
@@ -956,7 +971,7 @@ Prerequsite : Create a Root account and IAM user with admin privelages [ free-ti
 
 ***we can allocate elastic or static ip for an instance***
 
-***Ip allocation are for network interfaces not for instance , you can create multiple network interfaces***)
+***Ip allocation are for network interfaces not for instance , you can create multiple network interfaces***
 
 #### volumes & Network Interfaces 
 
@@ -1087,6 +1102,102 @@ Prerequsite : Create a Root account and IAM user with admin privelages [ free-ti
 
 #### Labs : 
 
+
+
+----------------------------------------------------------------------------------------
+
+Section 12 : AWS Cloud for Project Set up | Lift & Shift :
+
+        TAble of content : 
+                Multi tier web aplication stack[Vprofile]
+                Host & Run on AWS Cloud for Production 
+                Lift & Shift Strategy 
+
+        Scenario :      
+                Application SErvices runnin on physical/Virtual machines
+
+                Work load in you datacenter
+
+                Virtulization team , Dc Ops team , monitoring team and sys admin etc involved 
+
+                Complex management 
+
+                scale up/down complexity 
+
+                upfron capex & Regular Opex 
+
+                Manual process 
+
+                Difficult to automate 
+                
+                Time consuming 
+
+        Solution : 
+
+                Cloud Setup : 
+
+                        Pay as you go 
+                        IAAS 
+                        Flexibility 
+                        ease in infram management 
+                        Automation 
+
+        AWS Services 
+
+                EC2 Instances : Vm for Tomacat , rabbitmq , memecache , mysql 
+
+                ELB   : ngnix lb replacement 
+
+                Autoscaling : Automation for vm scaling 
+
+                S3/EFS Storage : Shared storage 
+
+                Route 53  : Private DNS service 
+
+
+        Architecture : 
+
+                1. Users will access our website by using a URL and that url we be pointing are told , will be pointing to an end point 
+
+                2. This entry will be mentioned by go daddy domain [DNS zones] ==> URL = ELB endpoint
+
+                3. User Browsers or the app will use this end point then to connect to the load balancer , by using https 
+
+                4. Certificate for https encryption will be mentioned in ACM
+
+                5. Our load balancer will be in a security group and will only allow https traffic and then our application load balancer , will route the request to tomcat instances 
+
+                6. Apache tomcat service , will be running on some set of instance which will be managed by our auto scaling group 
+
+                7. So as for high or low load , these instance capacity will be scaled our or scaled in 
+
+                8. These ec2 instances where Tomcat is runnin , will be in a separate security group and will only traffic on port 8080 only from a load balancer. 
+
+                9. Vprofile projects sits on the tomcat server
+
+                10. Information of backend services or the backend server IP address will be mentioned in Route 53 private DNA Zone 
+
+                11 . So Tomcat instances will access back server with a name which will be mentioned in Route 53. Private dns where the private IP address of our background servers will be mentioned . 
+
+                12 . These backend ec2 instacnes , which will be runnin mysql , RabbitMQ memcache will be in seperate ssecurity group 
+
+                13 . There amazon s3 bucker to store our software artifact 
+
+
+        Flow of Execution : 
+
+                1. Login to aws account 
+                2. Create Key pairs 
+                3. Create SEcutiy groups 
+                4. Lacuh instances with user data[bash scripts]
+                5. Updte IP to name mapping in route 53 
+                6. Build application from source code 
+                7. Upload to s3 bucket 
+                8. Download artifact to Tomcat Ec2 Instance 
+                9. Setup ELB with HTTPS[Cert from ACM]
+                10. Map ELB Endpoint to webstie name in Godaddy DNS 
+                11 .Verify 
+                12. Build Autoscaling Group for Tomcat Instances
 
 
 ----------------------------------------------------------------------------------------
@@ -1345,9 +1456,10 @@ Delete a remote branch :
 ------------------------------------------------------------
 
 
+
 first section : Devops theoritical prerequsites 
 
-second section : Prerequsite setu with , Aws root and IAM section and buying and configuring a domain with ACM from aws for dns . 
+second section : Prerequsite setup with , Aws root and IAM section and buying and configuring a domain with ACM from aws for dns . 
 
 Third Section : Virtulization with vm setup and virtulizaion automation with vagrant and virtualbox 
 
@@ -1366,6 +1478,10 @@ ninth section : docker basics with vpforile setup and build it's image and conta
         Here microservice topic was introduced in the vm. using docker-compose.yml file for building all the service we want in the ports that we want 
         repository: https://github.com/hkhcoder/vprofile-project  with docker as teh brach. 
 
+fourteen section : Git with practical labs. 
+
+fifteeen section : Maven part ; 
+
 
 Things in the labs pending are we are just cloning the repository blindly with performing the commands that he is giving. problem is that he is adding the frontend & backend code , ansible [configuration management] , vagrant file on m1m2 chips , for building the artifact he is using jenkins with maven by writing pom.xml file. 
 
@@ -1377,7 +1493,9 @@ Things in the labs pending are we are just cloning the repository blindly with p
 
 
 
+Have gone through the full-stack training , was able to gain new skills and deep knowledge in frontend , backend and database. I really liked the part of deploying the backend services created during the training using aws services . Was able to build personel projects using this knowledge. 
 
+Most of the tasks that were assigned and that I have taken are during my MEAN  training and devops training. There were bit challenging at first but with the help of seniors and mentor I was able to get the clear cut idea on how to solve them . Was able to complete the tasks assigned in the given time by making sure there are as many less errors as possible. 
 
 
 
