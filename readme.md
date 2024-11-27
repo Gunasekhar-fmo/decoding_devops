@@ -1533,16 +1533,3 @@ Things in the labs pending are we are just cloning the repository blindly with p
 
 
 
-Have gone through the full-stack training , was able to gain new skills and deep knowledge in frontend , backend and database. I really liked the part of deploying the backend services created during the training using aws services . Was able to build personel projects using this knowledge. 
-
-Most of the tasks that were assigned and that I have taken are during my MEAN  training and devops training. There were bit challenging at first but with the help of seniors and mentor I was able to get the clear cut idea on how to solve them . Was able to complete the tasks assigned in the given time by making sure there are as many less errors as possible. 
-
-
-
-
-
-
-
-
-
-
