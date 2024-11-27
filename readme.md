@@ -878,6 +878,46 @@ Commands :
 
 ## Section 10 : Bash Scripting 
 
+        #!/bin/bash   => tells the path of the interpretive
+
+#### Variables 
+#### Command Line Arguments
+#### System Variables 
+#### Quotes 
+#### Command Substitution 
+#### Exporting Variables [For permamanet use]
+
+        Season="Monsoon" 
+        echo $Season 
+
+        echo "This $Season is very cold"   //inside a script //will not print 
+
+        export Season // we are exporting the variable so that it becomes permanent 
+
+        but when we logout of the user and log in back the variable will be gone . for keeping things permanent 
+
+        export season in .bashrc file and type source bashrc . then it will become permanent 
+
+        If you want to make permanent for every user then edit 
+        /etc/profile file
+#### User input 
+#### Decision making [ if] & [if elif else]
+
+
+#### Script For monitoring:
+        Cronjobs 
+
+                crontab -e  // will open file in vim editor
+                Give 
+
+
+#### Commands : 
+        vi /etc/hostname 
+        hostname scriptbox // change the script name 
+        uptime 
+        free -m 
+        df -h 
+        chmod +x firstscript.sh  //for making the file executable
 
 
 ----------------------------------------------------------------------------------------
