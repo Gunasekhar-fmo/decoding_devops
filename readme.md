@@ -653,6 +653,11 @@ RELATIVE PATH
         vagrant provision (or)  vagrant --provision 
 
     
+#### Multi-vm : 
+        Define the web apps or the databses you want to run in the vagrantfile and then you just neeed to vagrant up <nameoftheservice> you wan to up . It will automatically provision those vms 
+
+
+#### Systemctl & Tomcat : 
 
 
 
@@ -925,6 +930,11 @@ Commands :
                 crontab -e  // will open file in vim editor
                 Give 
 
+#### Loops : 
+
+#### Remote command execution : 
+
+
 
 #### Commands : 
         vi /etc/hostname 
@@ -1126,7 +1136,7 @@ Prerequsite : Create a Root account and IAM user with admin privelages [ free-ti
                         b. Static IP 
                         c. Millions of request per second 
 
-                3.Gateway LB :
+                3. Gateway LB :
                         a. works on layer 3
                         b. Gateway load balancer enable you to deploy , scale , and manage virtual applicances such as 
                         c. Firewalls 
@@ -1142,11 +1152,252 @@ Prerequsite : Create a Root account and IAM user with admin privelages [ free-ti
 
 #### Labs : 
 
+        Create load balancer for our ec2 instance :
+                a . While creating the ec2 isntance in the advanced user data section . paste the script from the resource secton in elb hands on section . 
+
+                b. instance > Actions > Image and templates > Create image > Give name for ami 
+
+                c. Copy AMI > AMI copy Name  > Select Region [ optional ]
+
+                d. create 3 instaces and need to be accessed from a single endpoint and that endpoint should route the request to either of the instances 
+
+
+***From a snapshot , you can create a volume , but from an AMI , you can create an instance.*** 
+
+***We can make this AMI public , then it will be available in the community AMI Section***
+
+***Ec2 Image Builder - Automates image creation and management***
+
+***EC2 launch templates : template-name > template verison description > Application & OS images[recents, my AMIs] > Instance type > Key pair > Security groups > storage[optional]>
+resource tag **
+*
+
+***Target group can check the health of the instance and if the instance is unhealthy , it will not route the request to the instance*** 
+
+***Target group is basically a group of instances. Target group name > port number 80 > protocol HTTP > health check path [/ default ] > Port - Traffic port > Healthy threshold > unhealthy threshold > Timeout > Interval > Success codes > Register targets[select the ec2 instances]***
+        
+        Load Balancer creation : 
+                1. click on load balancer and we will go with application load balancer for http , https traffic . 
+
+                2. Load_balancer_name = health-elb , 
+
+                   scheme as internet-facing 
+
+                   Network maps - select atleast 2 zones[To 
+                   ensure high availability at the load balancer level] 
+
+                   Security groups > create a new security group [health-elb-sg]
+
+                   Inbound rule [80 -anywhere , 80-ipv6 anywhere] Ipv6 because nowdays many internet service providers are giving ipv6 especially 
+
+                   Listeners and routing - Http port 80 - This is listener if someone accesses on port 80 , it should route the request on this target group [health-tg] => backend 
+
+                   Create load > it will be provisioned state > Active state 
+
+                   Copy the DNS name and paste > 500 errors in http [Server error] . Here in the security group of the instance we need to add 80 port with the security group of load balancer. > We can even verify in the target groups if the instance is healthy or unhealthy
+
+#### Cloud watch : 
+
+        - Monitor performance of AWS environment - standard infrstructure metrics. 
+
+        Metrics : AWS cloud watch allows , you to record metrics for services such as EBS , EC2 , ELB , Route 53 Health checks , RDS , Amazon S3 , Cloudfront etc 
+
+        Events : AWs Events delivers a near real-time stream of system events that describe changes in Aws resources . [Launching , creation , snapshot etc]
+
+***We can set triggers from the events generated like lambda functions***
+
+***Cloud watch will add the moniring logs every 5 minutes*** 
+
+        Logs : You can use aws cloudwatch logs to monitor , storea and access your log files from ec2 , aws cloudtrail , Route53 and other sources. 
+
+        Metrics : 
+                Alarm monitors cloudwatch metrics for instances
+
+                Simple Notification SErvice(Amazon SNS) is a web service that coordinates and manages the delivery or sending of messages or subscribing endpoints or clients. 
+
+
+
+#### LABs : 
+
+        Go to the ec2 > monitoring > will see disk utilization , cpu utilization , network in , network out , etc 
+
+        Go to the volumes > monitoring > Read bandwidth , Write Bandwidth , Read Throughtpot , writetroughput etc 
+
+        AWS SErvices : Ec2 , aws cloudwatch , SNS 
+
+***By default monitoring will be for every 5 minutes , if we need to every minute  then we need to activate detailed monitoring***
+
+***stress package is a tool used to stress the cpu and other metrics in you computer***
+
+        Optional [Not free]: This exercise is manily for checking if the monitoring section of the instance will increase or not
+
+                1. Enable Detailed Monitoring : 
+                        a . create 
+                        b. ssh into the machine 
+                        c. install stress 
+                                sudo amazon-linux-extras install epel -y 
+                                sudo yum install stress y 
+                        d. nohub stress -c 4 -t 300 & [run in background with 4 cpu cores for 300 seconds]
+
+                        e. top  
+
+        Creating an alaram : 
+                1. Go to cloudwatch 
+                2. Go to alarm & create a alarm 
+                3. specify metric and conditions > per-instance metrics > select instance > select the cpu utlization time like 50 or 60 then create an alarm 
+                4. if greater than > create a topic , if already there no need . topic name , email . create topic 
+                5. There is also ec2 options where if the cpu utlization is way more then you can ask it to reboot or stop or terminate the instance 
+                6. Name & DEscription 
+
+***YOu can create 10 alarms in free-tire after that it costs money***
+
+#### EFS [Elastic file system] :
+
+***Similar to mounting a ebs volume . but ebs is only for one instance at a time. Efs you can mount for multiple instances***
+
+        
+#### Labs : 
+        
+        Storing the images inside an instance inot efs : 
+                1. create a security group 
+                2. Inbound rules : 
+                        NFS > will allow traffic from web server > description
+
+                3. Go to efs >  name > in network change the traffic to the efs security groups in all the availability zones. 
+
+                4. Click on access points > create access point > select file system > create access system 
+
+***There are two ways of accessing the efs through IAM and access point*** 
+
+                5. Mounting efs file system > install amazon-efs-utils >    
+
+                        file-syste-id efs-mount-point efs _netdev, tls , accesspoint=access-point-id 0 0 
+
+                6. vi /etc/fstab   > paste the above things by changing the file-system id and access point 
+
+                        fs-47a7ccb2 /var/www/html/img efs _netdev , tls , accesspoint=fsap-03f6334520365d2d7 0 0 
+
+                7. mount -fav 
+
+                        error : 
+                                Check the security group of your efs , whether it's allowing access from your web server 
+
+                                check whether you are doing it in the correct directory 
+
+                                check the typographical error for your filesystem with your access point . 
+
+                8. df -h // check if mounted. And any data you put in this directory is going to my EFS filesystem . 
+
+
+                9. create an AMI of this for future uses . 
+
+#### Autoscaling : 
+        
+        Auto scaling is a service that automatically monitors and adjusts compute resources to maintain performance for application hosted in the aws 
+
+        It increases o nthe basis of alarm monitors cloudwatch metrics for instance . 
+
+        A launch configuration/Template is an instance configuration template that an Auto scaling group uses to launch Ec2 instances . 
+
+        Scaling policy is used to increase and decrease the number of running instances in the group dynamically to meet changing conditions. 
+
+
+        Autoscaling group > minimun size > Desired capacity > scale out as needed > maximun size 
+
+        Autoscalinggroup[instance , application-tier] > Alarm > Scaling policy > instance 
+
+#### Labs : 
+        
+        1. Target group [empty]
+        2. application load balancer for the target group created above , security group of load balancer. 
+        3. create auto-scaling group 
+
+        4. select all the zones 
+        5. attach the existing load balancer , select the target group , Health check 
+
+#### S3 [Simple Storage Service] :
+
+        s3 is storage for internet . you can use amazon s3 to store and retriever any amount of dat at any time, from anywhere on the web 
+
+        It is object-based storage 
+
+        data is replicated across multiple facilities 
+
+        unlimited storage 
+
+        s3 stores data as objects withint buckets 
+
+        Bucket name has to be unique 
+
+         A bucket is a logical unit of storage in aws 
+
+         Object storage is a computer data storage architecture that manages data as objects. 
+
+
+***Amazon s3 > Bucket > Folder > Object > Pubilc Access***
+
+***we can access s3 programmatically through multiple instances which is different from efs which we mount in os level . we can achieve the same through s3 Fs *** 
+
+        s3 Storage Classes : 
+
+                1. s3 standard : General purpose storage of frequently accessed data . Fast access & object replication in multi AZ 
+
+                2. s3 IA - infrequent Access : Long-lived , but less frequently accessed data. Slow access , object replication in multi AZ 
+
+                3. s3 one Zone-IA : is for dat that is accessed less frequently , but requires rapid access when needed. Slow access  no object replication. 
+
+                4. s3 intelligent tiering : Automatiically moves data to most cost effective tier. 
+
+                5. S3 Glacier : Low cost sotrage class for data archiving 
+
+                6. S3 Glacier Deep Archive : Lowest cost storage , retrieval time of 12 Hrs. 
+
+        Life cycle policies : 
+
+                Amazon s3 standsard > 30 days > amazon s3 infrequent Access > 30 days > Any one of the availability zones 
+
+
+        S3 charges : 
+
+                Storage 
+                Request
+                Tiers 
+                Data Transfer
+                Region Replication 
+
+#### Labs : 
+        1. select s3 , General purpose , bucket_name 
+        2. ACL disabled 
+        3. Bucker versionin [ backup if deleted to older version ]
+        4. Encryption [sss-s3]
+        5. uploaded files 
+
+***By default what every objecct you have in bucker is private*** 
+
+        To make is public > ACLs enable > unblock public access(bucket settings) 
+
+        S3 WEb Hosting : 
+
+                2 buckets one for files , kone for server logs 
+
+                versioning explained 
+
+                s3 web hosting enabled . 
+
+                enabling ACLs and unblocking public access 
+
+
+
+
+
+
+
+
 
 
 ----------------------------------------------------------------------------------------
 
-Section 12 : AWS Cloud for Project Set up | Lift & Shift :
+## Section 12 : AWS Cloud for Project Set up | Lift & Shift :
 
         TAble of content : 
                 Multi tier web aplication stack[Vprofile]
@@ -1237,7 +1488,23 @@ Section 12 : AWS Cloud for Project Set up | Lift & Shift :
                 9. Setup ELB with HTTPS[Cert from ACM]
                 10. Map ELB Endpoint to webstie name in Godaddy DNS 
                 11 .Verify 
-                12. Build Autoscaling Group for Tomcat Instances
+                12. Build Autoscaling Group for Tomcat 
+
+#### Security Groups & Keypais 
+
+        Requirements : Total 3 security groups 
+                1. One for load balancer applicaiton load balancer which will listen from the internet traffic 
+                        Rules : Http & Https [443 allow from anywhere]
+                2. Second will be for the application or tomcat instances . tomcat service listens on port 8080. 
+                        Rules : port 8080 allowed from the load balancer security group 
+                                port 22 from our IP so we can SSH to these instances. 
+
+
+                3. V-profile applicaiton living in the tomcat instance will connect to the back-end services 
+                        a. one is mysql port number 3306
+                        b. memcache port number 11211 
+                        c. RabbitMQ on port 5672
+
 
 
 ----------------------------------------------------------------------------------------
@@ -1495,6 +1762,136 @@ Delete a remote branch :
 
 ------------------------------------------------------------
 
+## Section 16 : Continuous Integration with Jenkins :
+
+#### What is Continuous Integration : 
+
+        code > build > test > push => Merged but not integrated . 
+
+        Build code from vcs after every commit => CI 
+
+        Process : Developers > vcs > Fetch > Build > TEst > notify > developers 
+
+        JENKINS FEATURES : 
+
+                        Open Source 
+                        Extensibile : 
+                                Plugins[VCS Plugin , Build Plugin , Cloud Plugin , TEsting plugin etc]
+
+#### Lab1 - Installation of jenkins on an ec2 ubuntu os : 
+
+        1. Creating a ubuntu ec2 t2.small instance instead of t2.micro as it consumes so much ram for bunning mavne builds . [22 , My IP , 8080(custom TCp) ]
+
+        2. Ram - not the os requirement but the Jenkins requirement. why consider only Ubuntu - Ubuntu os stays on up to date with latest updates and Jenkins has lots of plugins that can be installed. so Ubuntu is more compatible
+
+        t2.micro is not sufficient as when running Jenkins jobs and Jenkins build it will crash so t2.small is recommended
+
+        In the security groups we need to have 22 and 8080 ports for ssh login and Jenkins runs of 8080
+
+
+        3. ssh into the vm using keypair values , install jdk
+
+        4. switch to root user. install jdk first before installation Jenkins as Jenkins installs the random version that is there in binaries which we do not need . So install jdk 21
+
+        5. systemctl status jenkins
+
+        6. Jenkins home directory - ls /var/lib/jenkins
+
+        7. config.xml => jenkins configuration file 
+
+        8. when we run jenkins build you will see workspace that will hold data like the artifacts. => If you want to take a backup of jenkins , or you want to move jenkins from one place to another place , you can shut down the jenkins server and archieve the jenkins folder and start the jenkins server and first you need to install jenkins on the other side . 
+
+        9. 
+
+
+
+
+
+------------------------------------------------------------
+
+## Sectin 17 : Python : 
+
+
+
+------------------------------------------------------------
+
+## Section 18 : Ansible 
+
+------------------------------------------------------------
+
+## Section 19 : AWS Part-2 
+
+------------------------------------------------------------
+
+## Section 20 : AWS CI/CD Project 
+
+------------------------------------------------------------
+## Section 21 : Docker 
+
+------------------------------------------------------------
+
+## Section 22 : Containerization 
+
+------------------------------------------------------------
+
+## Section 23 : Kubernates 
+
+------------------------------------------------------------
+
+## Section 24 : App Deployment on Kubernetes Cluster 
+
+------------------------------------------------------------
+
+## Section 25 : Terraform Tutorial 
+
+------------------------------------------------------------
+
+## Section 26 : GitOps Project 
+
+------------------------------------------------------------
+## Section 27 : CICD for Docker kubernates Using Jenkins 
+
+------------------------------------------------------------
+## Section 28 : CloudFormation Tutorial 
+
+------------------------------------------------------------
+
+## Section 29 : Conclusion :
+        
+#### What Next : 
+                Practice Projects in the course once again or 20 Devops Project s
+                While practicing write stories of your tasks 
+
+#### What More : 
+        
+                Specilation : 
+
+                        Cloud Computining & Automation : 
+                                Aws , Google , Azure etc 
+                                e.g : Associate Architect 
+                                      System ops
+                                      Devops 
+
+                        Pure Automation : 
+                                Ansible , CI/CD , python etc 
+                                e.g : Ansible certification 
+
+                        Conainerization :       
+                                Docker , Kubernetes , Swarm , Openshift etc 
+
+#### My Recommendation : 
+                Python Programming 
+                K8s Certification 
+                Helm 
+                Cloud Certification 
+                Terraform 
+                Security for DevSecOps
+                
+
+
+
+
+------------------------------------------------------------
 
 
 first section : Devops theoritical prerequsites 
@@ -1530,6 +1927,7 @@ Things in the labs pending are we are just cloning the repository blindly with p
 >> Jenkins 
 >> docker-compose.yml writing 
 >> mvn building with pom.xml 
+
 
 
 
