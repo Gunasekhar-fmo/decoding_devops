@@ -1,0 +1,1 @@
+Lab 1 - Simple docker commands & building an image of the emartapp and running a container inside the vm. 

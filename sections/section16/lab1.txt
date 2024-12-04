@@ -1,0 +1,31 @@
+Lab1 - Installation of jenkins on an ec2 ubuntu os
+
+sudo apt update 
+
+sudo apt install openjdk-21-jdk -y 
+
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian/jenkins.io-2023.key
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+sudo apt-get update
+
+sudo apt-get install jenkins
+
+ls var/lib/jenkins   
+    config.xml                        jobs              secret.key                updates
+    hudson.model.UpdateCenter.xml     nodeMonitors.xml  secret.key.not-so-secret  userContent
+    jenkins.telemetry.Correlator.xml  plugins           secrets                   users
+
+
+vagrant ssh -c "hostname -I"   => let the vm run and then find the ip address as in mac os is not letting us assign a private ip address
+172.16.152.130 172.16.149.128 
+
+cat /var/lib/jenkins/secrets/initialAdminPassword     => To find the initial password
+090146cd113c48039b7618fe25573731
+
+
+
+

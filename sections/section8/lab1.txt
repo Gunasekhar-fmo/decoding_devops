@@ -1,0 +1,27 @@
+ifconfig - Different networking interfaces
+
+        ip addr show : alternative for ifconfig
+
+        ping www.google.com 
+
+        tracert www.google.in -> Traceroute [Hopes] 
+
+        netstat -antp [open port] 
+
+        ps -ef | grep apache2 
+
+        ss -tunlp [open ports in our system]
+
+        nmap 
+
+        dig www.google.com [DNS lookup] 
+
+        nslookup same as dig but log 
+
+        route -n [Gateways] 
+
+        arp [add content to kernel] [kernel table]
+
+        mtr www.google.com [ ive traceroute] we can see dynamically 
+
+        telnet 192.168.40.12
