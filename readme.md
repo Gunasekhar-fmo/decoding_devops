@@ -1821,12 +1821,110 @@ Delete a remote branch :
 
 ## Section 19 : AWS Part-2 
 
+#### VPC Introduction : 
+        1. VPC is a logical data center within an AWS Region 
+        2. Virtual private cloud is an on-demaind configurable pool of shared computing 
+           resources allocated within a public cloud environment
+        3. Control over network environment , selected IP address range , subnets and configure route tables and Gateways
+
+#### IPv4 address , IPv4 range 
+#### Public[internet] and private IP[Forlocalnetworkdesign] Division , Private Ip Ranges
+#### Subnet Masks : 
+        An ip address is the address of that network interface. 
+        Subnetmask will decide on the network that an Ip address range starts at what IP , ends at what IP ,
+        How many IP's you get for that range, what will be the network address , what will be the broadcase address? 
+        1. 255.0.0.0 
+        2. 255.255.0.0
+        3. 255.255.255.0
+
+
+
 ------------------------------------------------------------
 
 ## Section 20 : AWS CI/CD Project 
 
 ------------------------------------------------------------
 ## Section 21 : Docker 
+
+        We Isolate our services : 
+                1. To host our apps we need infrastructure
+                2. We Use Vm's/Cloud computing to setup infra 
+                3. We Isolate our service in OS of Vm
+                4. Because of isolation we end up setting up multiple VM's/INstances
+                5. Vm's instances will be overprovisioned
+                6. Result in High Capex and Opex
+
+        Vm's are expensive : 
+                1. Every Vm has OS
+                2. OS needs nurturing 
+                3. OS Needs Licensing
+                4. OS takes time to boot
+                5. Vm's are portable but Bulky
+                6. Vm needs REsources for its os 
+                7. all this to isolate services
+
+        Point to be noted. 
+                1. Isolation services are IMP(Need OS)
+                2. High availability achived by multiple instances/vm's
+                3. Portability matters or eases the deployment
+                4. All this raises capex and opex
+
+        Isolation without OS[Imagine multiple services running in same os but isolated]
+
+        containers[Process running in a Directory]
+                1. A process[Isolated]
+                2. A directory[Namespace, cgroup]
+                3. Necessary bin/lib in the Directory
+                4. A directory with IP address to connect
+
+        Conatiner : 
+                1. Containers share the machine's OS system kernel and therefor do not require an OS per application 
+                2. A container is a standard unit of software that packages up codes , dependencies
+
+
+        Vm vs Container :
+                Containerized application : 
+                        Infrastructure>HOst os > Docker> AppA, AppB,Appc
+                Virtuliased application : 
+                        Infrastructure>Hypervisor>guestos , guestos ,guestos > APPA , APPB, APPC> Vm , vm , vm 
+
+        VM vs Container :
+                1. Containers offer isolation not virtulization
+                2. Containers are OS Virtualization
+                3. Vm's are Hardware virtualization
+                4. Vm needs OS
+                5. Containers don't need OS
+                6. Containers used HOst OS for compute resources.
+
+DOCKER : One of the container run-time environment 
+
+***You can run a container without docker but then you have to create the whole directory, dhte dependencies c group , namespace etc***
+
+        DOCKER history : 
+
+                1. Formerly knows as DotCloud
+                2. Into PAAS Business
+                3. Used LXC(Linux Containers)
+                4. save capex by using containers instead of vm's 
+                5. Developed Tools to manage containers
+                6. Business failed
+                7. Made their tools opensource projects knows as docker
+                8. Got Funding 
+                9. change the name to Docker incorporation
+
+        So What's Docker?
+                1. Docker INc
+                2. Docker Engine
+                3. Docker project(Open Source)
+
+        Docker Enginer
+                1. It is a daemon , a service running in the operating system
+                2. server[dockerdaemon] > REST API > Cline docker CLI - Manages network , data volumes , container , image
+
+#### Docker setup : 
+
+        
+
 
 ------------------------------------------------------------
 
