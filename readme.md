@@ -803,7 +803,7 @@ RELATIVE PATH
 
     Private IP Ranges : 
 
-        Class A : 10.0.0.0 - 10.255.255.255 
+        Class A : 10.0.0.0 - 10.255. 255.255 
         Class B : 172.16.0.0 - 172.31.255.255 
         Class c : 192.168.0.0 - 192.168.255.255
 
@@ -1387,7 +1387,9 @@ resource tag **
                 enabling ACLs and unblocking public access 
 
 
+#### Subnets : 
 
+        
 
 
 
@@ -1837,6 +1839,169 @@ Delete a remote branch :
         2. 255.255.0.0
         3. 255.255.255.0
 
+        192.168.0.174 , 255.255.255.0 . the first IP is my computers ip given by router -> DHCP 
+
+        192.168.0.0 , 255.255.255.0 DHCP is given this range . it's going to altert IP address from the range
+
+
+        192.168.0 - [Street address]This is the network address , 0  [House address]is the host range , So you can allocate IP's from this range
+
+        192.168.0.0 => Network IP 
+        192.168.0.255 => Broadcast 
+        192.168.0.1 => First usable IP
+        192.168.0.254 => last usable IP
+
+        Total IP => 256
+        Total usable IP => 254
+
+        Class B Ip : 
+
+        172.16.12.36
+        255.255.0.0 
+
+        172.16
+        12.36
+
+        172.16.0.0    => Network reserved 
+        172.16.0.1 
+        .
+        .
+        172.16.0.255
+        172.16.1.0 
+        172.16.1.0 
+        172.16.2.0
+        .
+        .
+        .
+        172.16.2.255
+        172.16.3.0
+        .
+        .
+        172.16.255.154
+        172.16.255.255 => Borad cast 
+
+
+        Total IP => 256*256
+
+        Class c : 
+
+        10.23.12.56
+        255.0.0.0 
+
+        10.
+        23.12.56
+
+        10.0.0.0
+        10.0.0.1
+        .
+        .
+        .
+        10.255.255.254
+        10.255.255.255
+
+        Total IP=> 256*256*256 
+
+#### CIDR [Class less interdomain routing]
+
+        255.0.0.0   => subnet mask 
+        11111111.00000000.00000000.00000000
+        /8  => cidr notation 
+
+        255.255.0.0 
+        11111111.11111111.00000000.00000000
+        /16
+
+        255.255.255.0 
+        11111111.11111111.11111111.00000000
+        /24 
+
+
+        Network Range 
+        172.20.0.0/16
+
+        subnets 172.20.0.0/24
+        172.20.1.0/21
+        172.20.2.0/24
+        172.20.3.0/24
+        172.20.4.0/24
+
+
+#### VPC Design & Components : 
+
+        Types of subnets : 
+                1. public subnet => it can go to the internet
+                        ex: ssh into the ec2 instance 
+                2. privae subnet => Not accessbile by the public . only runs the private services like databases , app servers. If you want to update packages inside this . it needs to connect VPC NAT gateway in teh public subnet. 
+
+        Internet Gateway allows you a connection with your public subnet 
+
+        A laptop has a private ip but the router of ours assigns a public ip for external communication. 
+
+
+        NETWORK ADDRESS TRANSALTION(NAT) : Gateway to enable instances in a private subnet to connect to the internet or other AWS services. 
+
+        Internet Gateway : It is a horizontally scaled , redundant and highly available VPC component that allows communication between instances in your VPC and internet
+
+        HOW DOES AN EC2 INSTANCE WHICH IS IN A SUBNET KNOWS THAT IT HAS TO GO TO THE INTERNET GATEWAY OR IT HAS TO GO TO THE NAR GATEWAY . 
+
+        Route TAble : 
+                A route table will be attached to the subnet . that will tell 
+
+        Gateway are routes , But the internet gateway is direct to and fro internet connection . NAT gateway is for only traffic that goes to traffic . 
+
+        If you want to connect to the private subnet directly from your home or office or organization , then you can have a NAT gateway , When you dial the VPN , then you can connect to your instances with their private IPs from your own network . 
+
+        You can also connect to your private subnet using bastion host or jump server. Instances in pubic subnet can connect to instances in private subnet . 
+
+
+        HIGH AVAILABILITY VPC : 
+                1. when you create a subnet , you assign it to a ZONE , we have minimum two zones in a region 
+
+
+        AWS ONLY CHANRGES FOR NAT GATEWAY AND NOTHING ELSE. 
+
+#### VPC SETUP DETAILS : 
+        
+        Region : us-west-1
+        VPC Range 172.0.0.0/16  = more than 65k ip address 
+        4 subnets : 2 pub sub nets , 2 private subnets 
+        2 Zones , us-west-1a , us-west-1b 
+        172.20.1.0/24  => pub subnet 1  [us-west-1a]
+        172.20.2.0/24  => pub subnet  2 [us-west-1b]
+        172.20.3.0/24  => private subnet 3 [us-west-1a]
+        172.20.4.0/24  => private subnet 4 [us-west-1b]
+
+        1 Internet GW
+        1 NAT Gateway 
+        1  Elastic Ip
+        2 Route TAbles : 1 pub sub RT , 2 Pub sub RT 
+        1 Bastion host in Pub subnet
+
+        NACL => security group is for instance , nacl is for subnets . 
+        1 More VPC => VPC peering 
+
+        IN nacl you have allow and deny rule , but in security grou pyou just have allow rule 
+
+#### DEFault VPC
+
+        us-west ==> region is that it has two availability zones . 
+
+        There is already a default vpc , change the name to default vpc and the subnet to default pubsub 1 and pubsub2
+
+        Aws will reserver five IP addressses per subnet 
+
+        How to identify a subnet is private or public : 
+
+
+
+
+        Traffic going to internet gateway => public subnet 
+        trffic going to NAT gateway => private subnet 
+
+#### Creating VPC : 
+
+        1. create vpc > Name > Ipv4 CIDR block[172.20.0.0/16] > 
+
 
 
 ------------------------------------------------------------
@@ -1923,7 +2088,59 @@ DOCKER : One of the container run-time environment
 
 #### Docker setup : 
 
-        
+        Only root use can communicate with docker daemon . If you want the normal user to communicate with docker then add the user to the docker group 
+
+        sudo vim/etc/group
+        docker:x:999:ubuntu or sudo usermod -aG docker ubuntu
+        id uubntu
+
+        docker un hello-wrold
+        docker images 
+        docker ps    => Running containers 
+        docker ps -a 
+
+#### Docker commands & concepts : 
+
+        Docker Image : 
+                1. A stopped container like vm image 
+                2. Consist of multiple layers[all are read-only expect the last one]
+                3. An app will be bundled in an image
+                4. Containers runs from images
+                5. Images are called as Repositories in Registries. 
+
+        Docker Registries : 
+                1. Storage for Docker Images
+                2. Dockerhub is default registry 
+                3. Cloud based Registries : 
+                        a. Dockerhub
+                        b. GCR 
+                        c. Amazon ECR 
+                4. Inhouse or Local Registries : 
+                        a. Nexus 3 
+                        b. Jfrong Artifactory 
+                        c. DTR(Docker trusted REgistry)
+
+***Containers Runs from Images*** 
+
+        Container is just a thin read write layer 
+        To create a container just run docker run
+
+#### Commands : 
+
+        docker images       => List images locally 
+        docker run          => Command creates a new container
+        docker ps           => List running container
+        docker ps -a        => List all the containers
+        docker exec         => executes cmds on containers 
+        docker start/stop/restart/rm 
+        docker rmi          => Remove docker images
+        docker inspace      => Detail of container & Image 
+        docker pull 
+
+        docker run --name myweb -d ngnix
+        docker run --name myweb -p 7090:80 -d ngnix
+
+        This is called as port forwarding or port mapping 
 
 
 ------------------------------------------------------------
