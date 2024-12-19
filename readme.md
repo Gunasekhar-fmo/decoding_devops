@@ -2159,6 +2159,19 @@ DOCKER : One of the container run-time environment
 
 ## Section 25 : Terraform Tutorial 
 
+#### Introduction : 
+
+        It is a Infrastructure as code tool >
+        Terraform maintains the state of the infrastructure
+
+#### Basics of Terraform : 
+        Installation of terraform bases on os 
+        finding AMI id is important 
+        terraform extension in vscode for formatting 
+        .tf is the extension for terraform file
+
+
+
 ------------------------------------------------------------
 
 ## Section 26 : GitOps Project 
